@@ -7,6 +7,11 @@ int key(int code, t_game *g)
 	return (0);
 }
 
+void	init_game(t_game *g)
+{
+	;
+}
+
 int main() {
 	t_game g;
 	// init_game(&g);
