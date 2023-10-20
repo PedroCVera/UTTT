@@ -4,6 +4,7 @@
 # include "../mlx-linux/mlx.h"
 # include <stdio.h>
 # include <unistd.h>
+# include <stdlib.h>
 
 # define SQUARE 400
 
@@ -39,10 +40,11 @@ typedef struct s_img {
 	int		endian;
 	int		width;
 	int		height;
+
 }	t_img;
 
 typedef struct s_tic {
-	char tic[3][3];
+	char tic[3][3]; //tic tac toe pequeno
 	char result;
 } t_tic;
 
@@ -52,15 +54,32 @@ typedef struct s_game {
 	t_img	frame;
 	t_img	big_grid;
 	t_img	small_grid;
-	t_tic	tac[3][3];
-	char	playing;
-	int		play_x;
-	int		play_y;
+	t_tic	tac[3][3]; //tic tac toe grande
+	char	playing; // x || o
+	int		play_x; //Position you gotta play X
+	int		play_y; //position you gotta play Y
 	int		cursor_x;
 	int		cursor_y;
+	int		lock;	//if big square is locked in
 } t_game;
+
+//  Display
 
 void	dislplay(t_game *g);
 void	create_image(t_img *img, void *mlx, char *name);
 void	create_grid(t_img *img, void *mlx, int width, int height, int thickness);
+
+//	checkers.c
+
+int		check_if_small_done(t_game *g);
+int		try_lock(t_game *g);
+char	checker_big_sqr(t_game *g);
+
+//	Game.c
+
+void	Play(t_game *g);
+void	move(int x, int y, t_game *g);
+void	init_game(t_game *g);
+int		game_engine(t_game *g);
+
 #endif
