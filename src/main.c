@@ -3,7 +3,7 @@
 int key(int code, t_game *g)
 {
 	(void)g;
-	printf("key = %d\n", code);
+	// printf("key = %d\n", code);
 	return (0);
 }
 
