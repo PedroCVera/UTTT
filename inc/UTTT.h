@@ -6,6 +6,16 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+# define SQUARE 400
+
+# define MARGIN 0
+
+# define S_MARGIN 0
+
+# define OFFSET 1
+# define SG_OFFSET 333 // SMALL GRIDS OFFSET
+
+
 # define BLK "\e[0;30m"
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"
@@ -28,8 +38,9 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		x_size;
-	int		y_size;
+	int		width;
+	int		height;
+
 }	t_img;
 
 typedef struct s_tic {
@@ -41,7 +52,8 @@ typedef struct s_game {
 	void	*mlx;
 	void	*mlx_w;
 	t_img	frame;
-
+	t_img	big_grid;
+	t_img	small_grid;
 	t_tic	tac[3][3]; //tic tac toe grande
 	char	playing; // x || o
 	int		play_x; //Position you gotta play X
@@ -50,6 +62,12 @@ typedef struct s_game {
 	int		cursor_y;
 	int		lock;	//if big square is locked in
 } t_game;
+
+//  Display
+
+void	dislplay(t_game *g);
+void	create_image(t_img *img, void *mlx, char *name);
+void	create_grid(t_img *img, void *mlx, int width, int height, int thickness);
 
 //	checkers.c
 
@@ -63,6 +81,5 @@ void	Play(t_game *g);
 void	move(int x, int y, t_game *g);
 void	init_game(t_game *g);
 int		game_engine(t_game *g);
-
 
 #endif
