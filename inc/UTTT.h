@@ -5,6 +5,16 @@
 # include <stdio.h>
 # include <unistd.h>
 
+# define SQUARE 400
+
+# define MARGIN 0
+
+# define S_MARGIN 0
+
+# define OFFSET 1
+# define SG_OFFSET 333 // SMALL GRIDS OFFSET
+
+
 # define BLK "\e[0;30m"
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"
@@ -27,10 +37,8 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		x_size;
-	int		y_size;
-	int		cursor_x;
-	int		cursor_y;
+	int		width;
+	int		height;
 }	t_img;
 
 typedef struct s_tic {
@@ -42,14 +50,17 @@ typedef struct s_game {
 	void	*mlx;
 	void	*mlx_w;
 	t_img	frame;
-
+	t_img	big_grid;
+	t_img	small_grid;
 	t_tic	tac[3][3];
 	char	playing;
 	int		play_x;
 	int		play_y;
+	int		cursor_x;
+	int		cursor_y;
 } t_game;
 
-
-
-
+void	dislplay(t_game *g);
+void	create_image(t_img *img, void *mlx, char *name);
+void	create_grid(t_img *img, void *mlx, int width, int height, int thickness);
 #endif
