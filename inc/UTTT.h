@@ -13,7 +13,7 @@
 # define S_MARGIN 0
 
 # define OFFSET 1
-# define SG_OFFSET 333 // SMALL GRIDS OFFSET
+# define SG_OFFSET 325 // SMALL GRIDS OFFSET
 
 
 # define BLK "\e[0;30m"
@@ -52,12 +52,25 @@ typedef struct s_game {
 	void	*mlx;
 	void	*mlx_w;
 	t_img	frame;
+	t_img	o_big;
+	t_img	o_small;
+	t_img	x_big;
+	t_img	x_small;
 	t_img	big_grid;
 	t_img	small_grid;
+	t_img	select_r;
+	t_img	select_g;
+	t_img	slct_r;
+	t_img	slct_g;
 	t_tic	tac[3][3]; //tic tac toe grande
+	int		state;
 	char	playing; // x || o
-	int		play_x; //Position you gotta play X
-	int		play_y; //position you gotta play Y
+	int		play_x; //Position you gotta play X BIG ONES
+	int		play_y; //position you gotta play Y BIG ONES
+	int		x_b;
+	int		y_b;
+	int		x_s;
+	int		y_s;
 	int		cursor_x;
 	int		cursor_y;
 	int		lock;	//if big square is locked in
@@ -65,9 +78,16 @@ typedef struct s_game {
 
 //  Display
 
-void	dislplay(t_game *g);
+void	display(t_game *g);
+void	create_frame(t_img *img, void *mlx, int width, int height);
+void	put_image(t_game *g, t_img *img, int start_x, int start_y);
+void	put_image_grid(t_game *g, t_img *img, int start_x, int start_y);
+void	print_game(t_game *g);
+void	print_selection(t_game *g);
 void	create_image(t_img *img, void *mlx, char *name);
 void	create_grid(t_img *img, void *mlx, int width, int height, int thickness);
+void	put_pixel(t_img *data, int x, int y, int color);
+void	create_selection(t_img *img, void *mlx, int width, int height, int thickness, unsigned int color);
 
 //	checkers.c
 
@@ -79,6 +99,7 @@ char	checker_big_sqr(t_game *g);
 
 void	Play(t_game *g);
 void	move(int x, int y, t_game *g);
+void	g_select(t_game *g);
 void	init_game(t_game *g);
 int		game_engine(t_game *g);
 

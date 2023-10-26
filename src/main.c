@@ -3,35 +3,83 @@
 int key(int code, t_game *g)
 {
 	if (code == UP)
-		move(-1, 0, g);
+	{
+		printf("UP\n");
+		move(0, -1, g);
+	}
 	else if (code == RIGHT)
-		move(0, 1, g);
+		move(1, 0, g);
 	else if (code == DOWN)
-		move(1, 0, g);
+		move(0, 1, g);
 	else if (code == LEFT)
-		move(1, 0, g);
+		move(-1, 0, g);
 	else if (code == ESC)
 		exit(0);
 	else if (code == SPACE)
 	{
-		if (try_lock(g) == 1)
-			;
-		else
-			Play(g);
+		g_select(g);
+		// if (try_lock(g) == 1)
+		// 	;
+		// else
+		// 	Play(g);
 	}
+	printf("OLA1,%d,%d\n%d,%d &&&&&&& %d\n",g->play_x, g->play_y, g->cursor_x, g->cursor_y, g->lock);
 	return (0);
+}
+
+void init_images(t_game *g)
+{
+	g->o_big.img = mlx_xpm_file_to_image(g->mlx, "imgs/O_big.xpm", &(g->o_big.width), &(g->o_big.height));
+	g->o_big.addr = mlx_get_data_addr(g->o_big.img, &(g->o_big.bits_per_pixel), (&g->o_big.line_length), (&g->o_big.endian));
+
+	// printf("addr = %p bpp = %d line = %d endian = %d\n", g.o_big.addr, g.o_big.bits_per_pixel, g.o_big.line_length, g.o_big.endian);
+	g->o_small.img = mlx_xpm_file_to_image(g->mlx, "imgs/O_small.xpm", &(g->o_small.width), &(g->o_small.height));
+	g->o_small.addr = mlx_get_data_addr(g->o_small.img, &(g->o_small.bits_per_pixel), (&g->o_small.line_length), (&g->o_small.endian));
+
+	g->x_big.img = mlx_xpm_file_to_image(g->mlx, "imgs/X_big.xpm", &(g->x_big.width), &(g->x_big.height));
+	g->x_big.addr = mlx_get_data_addr(g->x_big.img, &(g->x_big.bits_per_pixel), (&g->x_big.line_length), (&g->x_big.endian));
+
+	g->x_small.img = mlx_xpm_file_to_image(g->mlx, "imgs/X_small.xpm", &(g->x_small.width), &(g->x_small.height));
+	g->x_small.addr = mlx_get_data_addr(g->x_small.img, &(g->x_small.bits_per_pixel), (&g->x_small.line_length), (&g->x_small.endian));
+
+	create_selection(&(g->slct_r), g->mlx, 100, 100, 6, 0x00FF0000);
+	create_selection(&(g->slct_g), g->mlx, 100, 100, 6, 0x0000FF00);
+	create_selection(&(g->select_r), g->mlx, 300, 300, 6, 0x00FF0000);
+	create_selection(&(g->select_g), g->mlx, 300, 300, 6, 0x0000FF00);
+	create_grid(&(g->big_grid), g->mlx, 900, 900, 25);
+	create_grid(&(g->small_grid), g->mlx, 270, 270 , 5);
 }
 
 int main() {
 	t_game g;
 	init_game(&g);
 	g.mlx = mlx_init();
-  
-	create_grid(&(g.big_grid), g.mlx, 900, 900, 25);
-	create_grid(&(g.small_grid), g.mlx, 270, 270 , 5);
-	dislplay(&g);
-	g.mlx_w = mlx_new_window(g.mlx, 1000, 1000, "UTTT");
+
+
+
+	init_images(&g);
+	// create_selection(&(g.slct_r), g.mlx, 100, 100, 6, 0x00FF0000);
+	// create_selection(&(g.slct_g), g.mlx, 100, 100, 6, 0x0000FF00);
+	// create_selection(&(g.select_r), g.mlx, 300, 300, 6, 0x00FF0000);
+	// create_selection(&(g.select_g), g.mlx, 300, 300, 6, 0x0000FF00);
+	// create_grid(&(g.big_grid), g.mlx, 900, 900, 25);
+	// create_grid(&(g.small_grid), g.mlx, 270, 270 , 5);
+	g.mlx_w = mlx_new_window(g.mlx, 1700, 1700, "UTTT");
+	// display(&g);
+	create_frame(&(g.frame), g.mlx, 1700, 1700);
 	mlx_loop_hook(g.mlx, game_engine, &g);
 	mlx_key_hook(g.mlx_w, key, &g);
 	mlx_loop(g.mlx);
 }
+
+// if (g.lock == 1)
+// {
+// 	big_square_set
+// 	small_square?
+// }
+// else
+// 	big_square?
+// if (g.[x][y].result)
+// 	red_square;
+// else
+// 	green

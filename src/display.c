@@ -53,11 +53,126 @@ void	print_small_grid(t_game *g)
 		{
 			for (int y = 0; y < g->small_grid.height; y++)
 			{
-				for (int x = 0; x < g->small_grid.height; x++)
+				if (!(g->tac[oy][ox].result))
 				{
-					put_pixel_grid(&(g->frame), x + S_MARGIN + ox * SG_OFFSET, y + S_MARGIN + oy * SG_OFFSET, get_color(&(g->small_grid), x, y));
+					for (int x = 0; x < g->small_grid.height; x++)
+					{
+						put_pixel_grid(&(g->frame), x + S_MARGIN + ox * SG_OFFSET + 10, y + S_MARGIN + oy * SG_OFFSET + 10, get_color(&(g->small_grid), x, y));
+					}
 				}
 			}
+		}
+	}
+}
+
+void	print_selection(t_game *g)
+{
+	// printf("g->state = %c\n", (char)g->state);
+	if (g->state == 'B')
+	{
+		if (g->tac[g->y_b][g->x_b].result)
+			put_image(g, &(g->select_r), g->x_b * 325, g->y_b * 325);
+		else
+			put_image(g, &(g->select_g), g->x_b * 325, g->y_b * 325);
+	}
+	else
+	{
+		printf("checking %c\n", g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s]);
+		if (g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s])
+		{
+			put_image(g, &(g->slct_r), g->x_b * 325 + g->x_s * 100, g->y_b * 325 + g->y_s * 100);
+			printf("RED\n");
+		}
+		else
+		{
+			put_image(g, &(g->slct_g), g->x_b * 325 + g->x_s * 100, g->y_b * 325 + g->y_s * 100);
+			printf("GREEN\n");
+		}
+		
+	}
+}
+
+void	print_game(t_game *g)
+{
+	for (int by = 0; by < 3; by++)
+	{
+		for (int bx = 0; bx < 3; bx++)
+		{
+			if (g->tac[by][bx].result)
+			{
+				if (g->tac[by][bx].result == 'x')
+				{
+					put_image_grid(g, &(g->x_big), bx * 325, by * 325);
+					continue ;
+				}
+				if (g->tac[by][bx].result == 'o')
+				{
+					put_image_grid(g, &(g->o_big), bx * 325, by * 325);
+					continue ;
+				}
+			}
+			for (int sy = 0; sy < 3; sy++)
+			{
+				for (int sx = 0; sx < 3; sx++)
+				{
+					if (g->tac[by][bx].tic[sy][sx] == 'x')
+					{
+						put_image_grid(g, &(g->x_small), bx * 325 + sx * 100, by * 325 + sy * 100);
+						continue ;
+					}
+					if (g->tac[by][bx].tic[sy][sx] == 'o')
+					{
+						put_image_grid(g, &(g->o_small), bx * 325 + sx * 100, by * 325 + sy * 100);
+						continue ;
+					}
+				}
+			}
+		}
+	}
+}
+
+void	create_selection(t_img *img, void *mlx, int width, int height, int thickness, unsigned int color)
+{
+	img->img = mlx_new_image(mlx, width, height);
+	img->width = width;
+	img->height = height;
+	img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
+	for (int x = 0; x < thickness; x++)
+	{
+		for (int y = 0; y < height; y++)
+		{
+			put_pixel(img, x, y, color);
+			put_pixel(img, x + width - thickness, y, color);
+		}
+	}
+	for (int y = 0; y < thickness; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			put_pixel(img, x, y, color);
+			put_pixel(img, x, y + height - thickness, color);
+		}
+	}
+}
+
+void	put_image(t_game *g, t_img *img, int start_x, int start_y)
+{
+	for (int y = 0; y < img->height; y++)
+	{
+		for (int x = 0; x < img->width; x++)
+		{
+			put_pixel(&(g->frame), x + start_x, y + start_y, get_color(img, x, y));
+		}
+	}
+}
+
+void	put_image_grid(t_game *g, t_img *img, int start_x, int start_y)
+{
+	for (int y = 0; y < img->height; y++)
+	{
+		for (int x = 0; x < img->width; x++)
+		{
+			put_pixel_grid(&(g->frame), x + start_x, y + start_y, get_color(img, x, y));
 		}
 	}
 }
@@ -78,6 +193,9 @@ void	put_pixel(t_img *data, int x, int y, int color)
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	if (!color)
+		return ;
+	// printf("color = %u\n", *(unsigned int *)dst);
 	*(unsigned int *)dst = color;
 }
 
@@ -125,10 +243,20 @@ void	my_mlx_pixel_put_add(t_img *data, int x, int y, int color)
 	*(unsigned int *)dst += color;
 }
 
-void	dislplay(t_game *g)
+void	display(t_game *g)
 {
+	// printf("B x[%d]y[%d] ---- S x[%d]y[%d] character = %c\n", g->x_b, g->y_b, g->x_s, g->y_s, g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s]);
+	mlx_destroy_image(g->mlx, g->frame.img);
 	create_frame(&(g->frame), g->mlx, 1700, 1700);
 	print_big_grid(g);
 	print_small_grid(g);
+	print_game(g);
+	print_selection(g);
+	// put_image_grid(g, &(g->o_small), 0, 0);
+	// put_image(g, &(g->select_g), 0, 0);
+	// put_image(g, &(g->select_r), 325, 0);
+	// put_image(g, &(g->slct_r), 650, 0);
+	// put_image(g, &(g->slct_g), 750, 0);
+	mlx_clear_window(g->mlx, g->mlx_w);
 	mlx_put_image_to_window(g->mlx, g->mlx_w, g->frame.img, 0, 0);
 }
