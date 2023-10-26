@@ -12,7 +12,7 @@
 
 # define S_MARGIN 0
 
-# define OFFSET 1
+# define OFFSET 2
 # define SG_OFFSET 325 // SMALL GRIDS OFFSET
 
 
@@ -94,6 +94,8 @@ void	create_selection(t_img *img, void *mlx, int width, int height, int thicknes
 int		check_if_small_done(t_game *g);
 int		try_lock(t_game *g);
 char	checker_big_sqr(t_game *g);
+void	small_checker(t_tic *tic);
+void	check_small(t_game *g);
 
 //	Game.c
 

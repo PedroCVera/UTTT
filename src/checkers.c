@@ -183,6 +183,45 @@ int	checker_small_sqr(t_game *g)
 	return 0;
 }
 
+void	small_checker(t_tic *tic)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if ((*tic).tic[i][0] == (*tic).tic[i][1] && (*tic).tic[i][0] == (*tic).tic[i][2])
+		{
+			(*tic).result = (*tic).tic[i][0];
+			return ;
+		}
+		if ((*tic).tic[0][i] == (*tic).tic[1][i] && (*tic).tic[0][i] == (*tic).tic[2][i])
+		{
+			(*tic).result = (*tic).tic[0][i];
+			return ;
+		}
+	}
+	if ((*tic).tic[0][0] == (*tic).tic[1][1] && (*tic).tic[0][0] == (*tic).tic[2][2])
+	{
+		(*tic).result = (*tic).tic[0][0];
+		return ;
+	}
+	if ((*tic).tic[0][2] == (*tic).tic[1][1] && (*tic).tic[0][2] == (*tic).tic[2][0])
+	{
+		(*tic).result = (*tic).tic[0][2];
+		return ;
+	}
+}
+
+void	check_small(t_game *g)
+{
+	for (int y = 0; y < 3; y++)
+	{
+		for (int x = 0; x < 3; x++)
+		{
+			if (!(g->tac[y][x].result))
+				small_checker(&(g->tac[y][x]));
+		}
+	}
+}
+
 int	check_if_small_done(t_game *g)
 {
 	int	cx = 0;

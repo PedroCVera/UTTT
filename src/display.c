@@ -38,7 +38,7 @@ void	put_pixel_grid(t_img *data, int x, int y, unsigned int color)
 		dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 		*(unsigned int *)dst += 0xFF00FF00;
 	}
-	if (!(x + OFFSET < 0 || x + OFFSET > data->width || y + OFFSET < 0 || y + OFFSET > data->height))
+	if (!((x + OFFSET) < 0 || (x + OFFSET) > data->width || (y + OFFSET < 0) || (y + OFFSET) > data->height))
 	{
 		dst = data->addr + ((y + OFFSET) * data->line_length + (x + OFFSET) * (data->bits_per_pixel / 8));
 		*(unsigned int *)dst += 0xFF0000FF;
@@ -117,12 +117,12 @@ void	print_game(t_game *g)
 				{
 					if (g->tac[by][bx].tic[sy][sx] == 'x')
 					{
-						put_image_grid(g, &(g->x_small), bx * 325 + sx * 100, by * 325 + sy * 100);
+						put_image_grid(g, &(g->x_small), bx * 325 + sx * 100 + 10, by * 325 + sy * 100 + 10);
 						continue ;
 					}
 					if (g->tac[by][bx].tic[sy][sx] == 'o')
 					{
-						put_image_grid(g, &(g->o_small), bx * 325 + sx * 100, by * 325 + sy * 100);
+						put_image_grid(g, &(g->o_small), bx * 325 + sx * 100 + 10, by * 325 + sy * 100 + 10);
 						continue ;
 					}
 				}
@@ -252,6 +252,10 @@ void	display(t_game *g)
 	print_small_grid(g);
 	print_game(g);
 	print_selection(g);
+	if (g->playing == 'x')
+		put_image_grid(g, &(g->x_big), 1200, 300 + 25);
+	else
+		put_image_grid(g, &(g->o_big), 1200, 300 + 25);
 	// put_image_grid(g, &(g->o_small), 0, 0);
 	// put_image(g, &(g->select_g), 0, 0);
 	// put_image(g, &(g->select_r), 325, 0);

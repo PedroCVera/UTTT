@@ -140,16 +140,19 @@ void	init_game(t_game *g)
 	g->x_s = 1;
 	g->y_s = 1;
 	g->playing = 'x';
-	g->lock = 0;
-	g->play_x = 0;
-	g->play_y = 0;
-	g->cursor_x = 0;
-	g->cursor_y = 0;
+
+
+	// g->lock = 0;
+	// g->play_x = 0;
+	// g->play_y = 0;
+	// g->cursor_x = 0;
+	// g->cursor_y = 0;
 }
 
 int	game_engine(t_game *g)
 {
 	// (void)g;
 	display(g);
+	check_small(g);
 	return (1);
 }
