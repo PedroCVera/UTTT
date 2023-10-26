@@ -118,6 +118,19 @@ void	small_checker(t_tic *tic)
 	}
 }
 
+void 	check_full(t_tic *tic)
+{
+	for (int y = 0; y < 3; y++)
+	{
+		for (int x = 0; x < 3; x++)
+		{
+			if (!((*tic).tic[y][x]))
+				return ;
+		}
+	}
+	(*tic).result = '-';
+}
+
 void	check_small(t_game *g)
 {
 	for (int y = 0; y < 3; y++)
@@ -126,6 +139,8 @@ void	check_small(t_game *g)
 		{
 			if (!(g->tac[y][x].result))
 				small_checker(&(g->tac[y][x]));
+			if (!(g->tac[y][x].result))
+				check_full(&(g->tac[y][x]));
 		}
 	}
 }

@@ -67,7 +67,6 @@ void	print_small_grid(t_game *g)
 
 void	print_selection(t_game *g)
 {
-	// printf("g->state = %c\n", (char)g->state);
 	if (g->state == 'B')
 	{
 		if (g->tac[g->y_b][g->x_b].result)
@@ -77,17 +76,10 @@ void	print_selection(t_game *g)
 	}
 	else
 	{
-		printf("checking %c\n", g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s]);
 		if (g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s])
-		{
 			put_image(g, &(g->slct_r), g->x_b * 325 + g->x_s * 100, g->y_b * 325 + g->y_s * 100);
-			printf("RED\n");
-		}
 		else
-		{
 			put_image(g, &(g->slct_g), g->x_b * 325 + g->x_s * 100, g->y_b * 325 + g->y_s * 100);
-			printf("GREEN\n");
-		}
 		
 	}
 }
@@ -195,7 +187,6 @@ void	put_pixel(t_img *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	if (!color)
 		return ;
-	// printf("color = %u\n", *(unsigned int *)dst);
 	*(unsigned int *)dst = color;
 }
 
@@ -227,8 +218,6 @@ void	put_pixel_add(t_img *data, int x, int y, int color)
 {
 	char	*dst;
 
-	// dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	// *(unsigned int *)dst = color;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	if (!*(unsigned int *)dst)
 		return ;
@@ -245,7 +234,7 @@ void	my_mlx_pixel_put_add(t_img *data, int x, int y, int color)
 
 void	display(t_game *g)
 {
-	// printf("B x[%d]y[%d] ---- S x[%d]y[%d] character = %c\n", g->x_b, g->y_b, g->x_s, g->y_s, g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s]);
+	
 	mlx_destroy_image(g->mlx, g->frame.img);
 	create_frame(&(g->frame), g->mlx, 1700, 1700);
 	print_big_grid(g);
@@ -256,11 +245,6 @@ void	display(t_game *g)
 		put_image_grid(g, &(g->x_big), 1200, 300 + 25);
 	else
 		put_image_grid(g, &(g->o_big), 1200, 300 + 25);
-	// put_image_grid(g, &(g->o_small), 0, 0);
-	// put_image(g, &(g->select_g), 0, 0);
-	// put_image(g, &(g->select_r), 325, 0);
-	// put_image(g, &(g->slct_r), 650, 0);
-	// put_image(g, &(g->slct_g), 750, 0);
 	mlx_clear_window(g->mlx, g->mlx_w);
 	mlx_put_image_to_window(g->mlx, g->mlx_w, g->frame.img, 0, 0);
 }
