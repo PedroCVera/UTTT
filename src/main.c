@@ -70,6 +70,7 @@ int main() {
 	mlx_loop_hook(g.mlx, game_engine, &g);
 	mlx_key_hook(g.mlx_w, key, &g);
 	mlx_loop(g.mlx);
+	printf("\n\nGame made by: pcoimbra, ralves-g!\n");
 }
 
 // if (g.lock == 1)

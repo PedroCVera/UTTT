@@ -154,5 +154,14 @@ int	game_engine(t_game *g)
 	// (void)g;
 	display(g);
 	check_small(g);
+	char	flag = checker_big_sqr(g);
+	if (flag)
+	{
+		if (flag == '-')
+			printf("Come on guys... y'all can do better... :/\n");
+		else
+			printf("DINGDINGDINGDINGDING %c WON XD\n", flag);
+		exit(0);
+	}
 	return (1);
 }
