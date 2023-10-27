@@ -2,22 +2,12 @@
 
 void	move(int x, int y, t_game *g)
 {
-	printf("B x[%d]y[%d] ---- S x[%d]y[%d] character = %c\n", g->x_b, g->y_b, g->x_s, g->y_s, g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s]);
-	printf("x = %d y = %d\n", x, y);
 	if (g->state == 'B')
 	{
 		if (g->x_b + x >= 0 && g->x_b + x <= 2)
-		{
 			g->x_b += x;
-			if (x)
-				printf("moving left/right\n");
-		}
 		if (g->y_b + y >= 0 && g->y_b + y <= 2)
-		{
 			g->y_b += y;
-			if (y)
-			printf("moving up/down\n");
-		}
 	}
 	else
 	{
@@ -26,7 +16,6 @@ void	move(int x, int y, t_game *g)
 		if (g->y_s + y >= 0 && g->y_s + y <= 2)
 			g->y_s += y;
 	}
-	printf("B x[%d]y[%d] ---- S x[%d]y[%d] character = %c\n", g->x_b, g->y_b, g->x_s, g->y_s, g->tac[g->y_b][g->x_b].tic[g->y_s][g->x_s]);
 }
 
 void	g_select(t_game *g)
@@ -49,6 +38,7 @@ void	g_select(t_game *g)
 				g->playing = 'x';
 			else
 				g->playing = 'o';
+			small_checker(&(g->tac[g->y_b][g->x_b]));
 			if (!(g->tac[g->y_s][g->x_s].result))
 			{
 				g->x_b = g->x_s;
@@ -86,9 +76,12 @@ void	init_game(t_game *g)
 	g->playing = 'x';
 }
 
+void clean_exit(t_game *g) {
+	(void)g;
+}
+
 int	game_engine(t_game *g)
 {
-	display(g);
 	check_small(g);
 	char	flag = checker_big_sqr(g);
 	if (flag)
@@ -99,5 +92,7 @@ int	game_engine(t_game *g)
 			printf("DINGDINGDINGDINGDING %c WON XD\n", flag);
 		exit(0);
 	}
+	display(g);
 	return (1);
 }
+

@@ -235,7 +235,6 @@ void	my_mlx_pixel_put_add(t_img *data, int x, int y, int color)
 void	display(t_game *g)
 {
 	
-	mlx_destroy_image(g->mlx, g->frame.img);
 	create_frame(&(g->frame), g->mlx, 1700, 1700);
 	print_big_grid(g);
 	print_small_grid(g);
@@ -245,6 +244,7 @@ void	display(t_game *g)
 		put_image_grid(g, &(g->x_big), 1200, 300 + 25);
 	else
 		put_image_grid(g, &(g->o_big), 1200, 300 + 25);
-	mlx_clear_window(g->mlx, g->mlx_w);
+	mlx_clear_window(g->mlx, g->mlx_w); 
 	mlx_put_image_to_window(g->mlx, g->mlx_w, g->frame.img, 0, 0);
+	mlx_destroy_image(g->mlx, g->frame.img);
 }

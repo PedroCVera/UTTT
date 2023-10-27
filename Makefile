@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2023/10/20 15:43:17 by ralves-g         ###   ########.fr        #
+#    Updated: 2023/10/27 15:36:34 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,10 @@ $(NAME): $(DEPS) $(OBJS)
 
 $(_OBJ):
 	mkdir $@
+	
+init:
+	make re
+	./uttt
 
 clean:
 	$(RM) -r $(OBJS)

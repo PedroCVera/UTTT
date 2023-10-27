@@ -48,7 +48,6 @@ int main() {
 
 	init_images(&g);
 	g.mlx_w = mlx_new_window(g.mlx, 1700, 1700, "UTTT");
-	create_frame(&(g.frame), g.mlx, 1700, 1700);
 	mlx_loop_hook(g.mlx, game_engine, &g);
 	mlx_key_hook(g.mlx_w, key, &g);
 	mlx_loop(g.mlx);
