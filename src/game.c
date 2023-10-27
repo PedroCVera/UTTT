@@ -90,6 +90,7 @@ int	game_engine(t_game *g)
 			printf("Come on guys... y'all can do better... :/\n");
 		else
 			printf("DINGDINGDINGDINGDING %c WON XD\n", flag);
+		printf("\nGame made by: pcoimbra, ralves-g!\n");
 		exit(0);
 	}
 	display(g);
